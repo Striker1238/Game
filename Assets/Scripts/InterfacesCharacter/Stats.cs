@@ -3,7 +3,7 @@ using UnityEngine;
 public abstract class Stats : MonoBehaviour
 {
     [Header("MainStats")]
-    [SerializeField] private protected int MaxHealthPoint;
+    [SerializeField] protected internal int MaxHealthPoint;
     [SerializeField] private protected int _healthPoint;
     public virtual int HealthPoint
     {
@@ -16,7 +16,7 @@ public abstract class Stats : MonoBehaviour
             _healthPoint = value;
         }
     }
-    [SerializeField] private protected int MaxManaPool;
+    [SerializeField] protected internal int MaxManaPool;
     [SerializeField] private protected int _manaPool;
     public virtual int ManaPool
     {
@@ -53,6 +53,7 @@ public abstract class Stats : MonoBehaviour
             _name = value;
         }
     }
+    [Min(1)]
     [SerializeField] private protected int _level;
     public virtual int Level 
     {
@@ -68,7 +69,7 @@ public abstract class Stats : MonoBehaviour
 
     [Header("Meaning of Characteristic")]
     [SerializeField] private protected int _strength;
-    public int Strength 
+    protected internal int Strength 
     { 
         get => _strength; 
         set 
@@ -78,7 +79,7 @@ public abstract class Stats : MonoBehaviour
         } 
     }
     [SerializeField] private protected int _agility;
-    public int Agility 
+    protected internal int Agility 
     { 
         get => _agility;
         set 
@@ -88,7 +89,7 @@ public abstract class Stats : MonoBehaviour
         }
     }
     [SerializeField] private protected int _constitution;
-    public int Constitution 
+    protected internal int Constitution 
     { 
         get => _constitution;
         set
@@ -99,8 +100,8 @@ public abstract class Stats : MonoBehaviour
             ConstitutionModifier = (_constitution / 2) - 5;
         }
     }
-    [SerializeField] private protected int _intelligence;
-    public int Intelligence { 
+    [SerializeField] private protected int _intelligence;   
+    protected internal int Intelligence { 
         get => _intelligence; 
         set 
         { 
@@ -111,7 +112,7 @@ public abstract class Stats : MonoBehaviour
         } 
     }
     [SerializeField] private protected int _wisdom;
-    public int Wisdom 
+    protected internal int Wisdom 
     {
         get => _wisdom;
         set
@@ -121,7 +122,7 @@ public abstract class Stats : MonoBehaviour
         }
     }
     [SerializeField] private protected int _charisma;
-    public int Charisma 
+    protected internal int Charisma 
     {
         get => _charisma;
         set
@@ -133,19 +134,19 @@ public abstract class Stats : MonoBehaviour
 
 
     [Header("Characteristic modifier")]
-    private protected int StrengthModifier { get; set; }
-    private protected int AgilityModifier { get; set; }
-    private protected int ConstitutionModifier { get; set; }
-    private protected int IntelligenceModifier { get; set; }
-    private protected int WisdomModifier { get; set; }
-    private protected int CharismaModifier { get; set; }
+    [SerializeField] protected internal int StrengthModifier { get; set; }
+    [SerializeField] protected internal int AgilityModifier { get; set; }
+    [SerializeField] protected internal int ConstitutionModifier { get; set; }
+    [SerializeField] protected internal int IntelligenceModifier { get; set; }
+    [SerializeField] protected internal int WisdomModifier { get; set; }
+    [SerializeField] protected internal int CharismaModifier { get; set; }
 
 
 
     [Header("Attack Settings")]
     [SerializeField] private protected int _damage;
     public virtual int Damage { get => _damage; set => _damage = value; }
-    [SerializeField] private protected float AttackRange = 0.5f;
-    [SerializeField] private protected Transform AttackTriggerPosition;
+    [SerializeField] protected internal float AttackRange = 0.5f;
+    [SerializeField] protected internal Transform AttackTriggerPosition;
 
 }

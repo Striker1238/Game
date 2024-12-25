@@ -19,7 +19,7 @@ namespace Inventory
 
         public void Start()
         {
-            EventBus.UpdateSlotsData += UpdateInventory;
+            UIEvents.UpdateSlotsData += UpdateInventory;
             Equipment = new List<Slot>(4);
             Initialization();
         }

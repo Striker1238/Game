@@ -55,7 +55,7 @@ public class EnemyController : Stats, ICharacterHealthChanged, ICharacterMove, I
     public void Died()
     {
         Animations.Died();
-        EventBus.OnEnemyDied();
+        EnemyEvents.OnEnemyDied();
         
     }
 
@@ -77,7 +77,7 @@ public class EnemyController : Stats, ICharacterHealthChanged, ICharacterMove, I
         Collider2D[] Hits = Physics2D.OverlapCircleAll((CharacterSprite.flipX) ? new Vector2(AttackTriggerPosition.position.x - 2, AttackTriggerPosition.position.y) : AttackTriggerPosition.position, AttackRange);
         foreach (var Hit in Hits)
         {
-            Hit.GetComponent<CharacterController>()?.DamageReceived(Damage);
+            Hit.GetComponent<CharacterMovement>()?.DamageReceived(Damage);
         }
     }
 

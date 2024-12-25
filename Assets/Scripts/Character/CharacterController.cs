@@ -1,55 +1,7 @@
-
-using System.Collections;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Threading.Tasks;
-using TMPro;
 using UnityEngine;
-
-[RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(CharacterAnimator))]
-public class CharacterController : Stats, ICharacterHealthChanged, ICharacterMove, ICharacterAttack
+//TODO: увеличивать количество поинтов, когда повышается уровень
+public class CharacterController : Stats
 {
-    public override int HealthPoint
-    {
-        get
-        {
-            return _healthPoint;
-        }
-        set
-        {
-            _healthPoint = Mathf.Clamp(value, 0, MaxHealthPoint);
-
-            if (_healthPoint <= 0) Died();
-        }
-    }
-    [SerializeField]private int _points;
-    public int Points { get => _points; set => _points = value; }
-    public override int Level
-    {
-        set 
-        {
-            base.Level = value;
-           // UIManager.Instance
-        }
-    }
-
-
-
-    [Header("Move Stats")]
-    [SerializeField] private float normalSpeed = 6;
-    private float Speed = 0;
-    [SerializeField] private float JumpForce = 1;
-    [SerializeField] private Vector3 GroundCheckOffset;
-
-    private Vector3 Force;
-    [SerializeField]
-    private bool IsMoving = false;
-    [SerializeField]
-    private bool IsGrounded = true;
-    [SerializeField]
-    private bool IsAttacking = false;
-
     private static CharacterController _instance;
     public static CharacterController Instance
     {
@@ -69,120 +21,35 @@ public class CharacterController : Stats, ICharacterHealthChanged, ICharacterMov
         }
     }
 
-
-    private Rigidbody2D rb;
-    private SpriteRenderer CharacterSprite;
-    private CharacterAnimator Animations;
-    
-
-    public void Start()
+    [Header("Other Stats")]
+    public override int HealthPoint
     {
-        rb = GetComponent<Rigidbody2D>();
-        CharacterSprite = GetComponent<SpriteRenderer>();
-        Animations = GetComponent<CharacterAnimator>();
-    }
-
-    public void Update()
-    {
-        if (!IsAttacking)
+        get
         {
-            Move();
+            return _healthPoint;
         }
-
-        GroundCheck();
-        //Р”Р»СЏ РїСЂРѕРІРµСЂРѕРє РІ editor
-        if (Input.GetKeyDown(KeyCode.Space))
+        set
         {
-           OnClickButtonJump();
-        }
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            OnButtonLeftDown();
-        }
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            OnButtonRigthDown();
-        }
-        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
-        {
-            OnButtonUp();
-        }
+            _healthPoint = Mathf.Clamp(value, 0, MaxHealthPoint);
 
-        Animations.IsMoving = IsMoving;
-        Animations.IsFlying = IsFlying();
-    }
-    private bool IsFlying()
-    {
-        if (rb.linearVelocity.y < 0) return true;
-        else return false;
-    }
-    private void GroundCheck()
-    {
-        float rayLength = 0.3f;
-        Vector3 rayStartPosition = transform.position + GroundCheckOffset;
-        RaycastHit2D hit = Physics2D.Raycast(rayStartPosition, rayStartPosition + Vector3.down,rayLength);
-
-        IsGrounded = hit.collider != null && hit.collider.CompareTag("Ground");
-    }
-
-
-    public void Move()
-    {
-        //rb?.AddForce(Force * Speed);
-        transform.position += new Vector3(Speed * Time.deltaTime,0,0);
-        IsMoving = (Mathf.Abs(Speed) > 0) ? true : false;
-
-        if (IsMoving && CharacterSprite != null) CharacterSprite.flipX = (Speed > 0) ? false : true;
-
-    }
-    public void Jump()
-    {
-        if (IsGrounded)
-        {
-            rb.AddForce(Vector2.up * JumpForce, ForceMode2D.Impulse);
-            Animations.Jump();
+            if (_healthPoint <= 0) GetComponent<CharacterMovement>().Died();
         }
     }
-    public void OnButtonLeftDown() => Speed = -normalSpeed;
-    public void OnButtonRigthDown() => Speed = normalSpeed;
-    public void OnClickButtonJump() => Jump();
-    public void OnButtonUp() => Speed = 0f;
-
-    public void Attack()
-    {
-        if (IsGrounded && !IsAttacking)
+    [SerializeField] private int _points = 27;
+    public int Points { 
+        get => _points;
+        set
         {
-            IsAttacking = true;
-            Animations.Attack();
-
-            Collider2D[] HitEnemies = Physics2D.OverlapCircleAll((CharacterSprite.flipX) ? new Vector2(AttackTriggerPosition.position.x - 2, AttackTriggerPosition.position.y) : AttackTriggerPosition.position, AttackRange);
-
-            foreach (var Enemies in HitEnemies)
-            {
-                Enemies.GetComponent<EnemyController>()?.DamageReceived(Damage);
-            }
+            _points = value;
+            UIManager.Instance.VisualizationCharacteristicsButton(_points > 0);//Показываем кнопки для прокачки статов
         }
     }
-    public void OnEndAttack()
-    {
-        IsAttacking = false;
-    }
 
-    public void HealthRecovery(int health)
+    public void HeroLevelUp()
     {
-        HealthPoint += health;
-    }
-    public void DamageReceived(int damage)
-    {
-        GameObject _hitText = Instantiate(GameManager.Instance.PrefabHitText, gameObject.transform);
-        _hitText.GetComponent<TextMeshPro>().text = $"-{damage}";
+        
+        //Предложить сразу улучшить характеристики
 
-        HealthPoint -= damage;
-        EventBus.OnHitHero(HealthPoint, MaxHealthPoint);
-    }
-    public void Died()
-    {
-        Speed = 0f;
-        EventBus.OnHeroDied();
+        PlayerEvents.OnPlayerLevelUp();
     }
 }

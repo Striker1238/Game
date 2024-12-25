@@ -1,16 +1,12 @@
 ﻿using TMPro;
+using UnityEngine;
 
 [System.Serializable]
-public class StatTextBlock
+public struct StatTextBlock
 {
+    public string TextValue;
     public TextMeshProUGUI PointText;
     public TextMeshProUGUI ModificationText;
-    public string TextValue;
-
-    public StatTextBlock(TextMeshProUGUI PointTMP, TextMeshProUGUI ModificationTMP, string textValue)
-    {
-        PointText = PointTMP;
-        ModificationText = ModificationTMP;
-        TextValue = textValue;
-    }
+    public GameObject UpButton;
+    public GameObject DownButton;
 }

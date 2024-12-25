@@ -13,7 +13,7 @@ public class CharacterAnimator : MonoBehaviour
     public void Start()
     {
         AnimatorController = GetComponent<Animator>();
-        EventBus.HeroDied += Died;
+        PlayerEvents.HeroDied += Died;
     }
 
     public void Update()

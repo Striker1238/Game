@@ -9,7 +9,7 @@ using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
-
+//TODO: уменьшение статов только когда идет прокачка и выбор куда влить поинт
 public class UIManager : MonoBehaviour
 {
     [Header("MenuUI")]
@@ -27,6 +27,7 @@ public class UIManager : MonoBehaviour
     public TextMeshProUGUI Point_TMP;
     public TextMeshProUGUI Level_TMP;
     public List<StatTextBlock> StatTMPBlock;
+
 
     private static UIManager _instance;
     public static UIManager Instance
@@ -62,8 +63,8 @@ public class UIManager : MonoBehaviour
 
     public void Start()
     {
-        EventBus.HitHero += ChangeHealthPoint;
-        
+        PlayerEvents.HitHero += ChangeHealthPoint;
+        UIEvents.UpdateStatsData += UpdateTextBlocks;
     }
 
     public void ChangeHealthPoint(int HealthPoint, int MaxHealthPoint)
@@ -77,7 +78,7 @@ public class UIManager : MonoBehaviour
     public void InventoryOpen()
     {
         InventoryPerent.SetActive(!InventoryPerent.activeSelf);
-        EventBus.OnUpdateSlots();
+        UIEvents.OnUpdateSlots();
     }
 
     /// <summary>
@@ -86,23 +87,74 @@ public class UIManager : MonoBehaviour
     public void PlayerBookOpen()
     {
         StatsBook.SetActive(!StatsBook.activeSelf);
-        //EventBus.OnUpdateStatsData();
+
+        if(StatsBook.activeSelf) UIEvents.OnUpdateStatsData();
     }
 
-    public void UpdateTextBlocks()
+    //TODO: ВОЗМОЖНО ПЕРЕНЕСТИ В GameManager
+    // Использую switch потому что характеристики не будут дополняться в большом количестве, а добавить 2-3 будет не сложно.
+    // Не самый практичный способ как по мне, но лучше к сожалению пока не придумал, если появится идея, то изменю.
+    /// <summary>
+    /// Обновляет текст в книге игрока
+    /// </summary>
+    private void UpdateTextBlocks()
     {
-        foreach (var entry in StatTMPBlock)
+        var player = CharacterController.Instance;
+
+        Level_TMP.text =  $"Level: {player.Level}";
+        Point_TMP.text = $"Points: {player.Points}";
+
+        foreach (var statBlock in StatTMPBlock)
         {
-            if (entry != null)
+            switch (statBlock.TextValue.ToLower())
             {
-                //entry.text = 
-            }
-            else
-            {
-                Debug.LogWarning("TextMeshProUGUI блок не задан.");
+                case "strength":
+                    statBlock.PointText.text = player.Strength.ToString();
+                    statBlock.ModificationText.text = player.StrengthModifier.ToString();
+                    break;
+                case "agility":
+                    statBlock.PointText.text = player.Agility.ToString();
+                    statBlock.ModificationText.text = player.AgilityModifier.ToString();
+                    break;
+                case "constitution":
+                    statBlock.PointText.text = player.Constitution.ToString();
+                    statBlock.ModificationText.text = player.ConstitutionModifier.ToString();
+                    break;
+                case "intelligence":
+                    statBlock.PointText.text = player.Intelligence.ToString();
+                    statBlock.ModificationText.text = player.IntelligenceModifier.ToString();
+                    break;
+                case "wisdom":
+                    statBlock.PointText.text = player.Wisdom.ToString();
+                    statBlock.ModificationText.text = player.WisdomModifier.ToString();
+                    break;
+                case "charisma":
+                    statBlock.PointText.text = player.Charisma.ToString();
+                    statBlock.ModificationText.text = player.CharismaModifier.ToString();
+                    break;
+                default:
+                    Debug.Log($"Неизвестная характеристика: {statBlock.TextValue}");
+                    break;
             }
         }
     }
+
+    /// <summary>
+    /// Sets the visualization of buttons based on the input value
+    /// </summary>
+    /// <param name="visible">Input value</param>
+    public void VisualizationCharacteristicsButton(bool visible)
+    {
+        foreach (var StatButtons in StatTMPBlock)
+        {
+            StatButtons.UpButton.SetActive(visible);
+            //StatButtons.DownButton.SetActive(visible);
+        }
+    }
+    
+
+
+
 
     public void Update()
     {

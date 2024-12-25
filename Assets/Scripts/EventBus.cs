@@ -1,84 +1,49 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
 
-public class EventBus
+// События, связанные с игровым процессом
+public static class GameEvents
 {
-
-    /// <summary>
-    /// Вызывается при смерти какого-либо врага
-    /// </summary>
-    public static event Action EnemyDied;
-
-    /// <summary>
-    /// Вызывается при смерти игрока
-    /// </summary>
-    public static event Action HeroDied;
-
-    /// <summary>
-    /// Вызывается при нанесении урона игроку
-    /// </summary>
-    public static event Action<int,int> HitHero;//Нужен для удобного контроля всех событий, которые должны произойти при получении урона игроком
-
-    /// <summary>
-    /// Вызывается при запуске игры
-    /// </summary>
+    
     public static event Action StartGame;
+    
 
-    /// <summary>
-    /// Вызывается при обновлении данных слотов инвентаря
-    /// </summary>
-    public static event Action UpdateSlotsData;
-
-    /// <summary>
-    /// Вызывается при получении нового уровня игроком
-    /// </summary>
+    public static void OnStartGame() => StartGame?.Invoke();
+    
+}
+// События, связанные с игроком
+public static class PlayerEvents
+{
+    
+    public static event Action<int, int> HitHero;
+    public static event Action HeroDied;
     public static event Action PlayerLevelUp;
 
-    /// <summary>
-    /// Вызывается при обновлении характеристик игрока
-    /// </summary>
-    public static event Action UpdateStatsData;
-
-
-
-
-
-
-    /// <summary>
-    /// Вызывает события, подписанные на смерть врага
-    /// </summary>
-    public static void OnEnemyDied() => EnemyDied?.Invoke();
-
-    /// <summary>
-    /// Вызывает события, подписанные на смерть игрока
-    /// </summary>
-    public static void OnHeroDied() => HeroDied?.Invoke();
-    
-    /// <summary>
-    /// Вызывает события, подписанные изменение хп игрока(получение урона)
-    /// </summary>
+    //Когда игрок получает урон
     public static void OnHitHero(int HealthPoint, int MaxHealthPoint) => HitHero?.Invoke(HealthPoint, MaxHealthPoint);
-
-    /// <summary>
-    /// Вызывает события, подписанные на старт игры
-    /// </summary>
-    public static void OnStartGame() => StartGame?.Invoke();
-
-    /// <summary>
-    /// Вызывает события, подписанные на обновление данных слотов
-    /// </summary>
-    public static void OnUpdateSlots() => UpdateSlotsData?.Invoke();
-
-    /// <summary>
-    /// Вызывает события, подписанные на получении уровня игрока
-    /// </summary>
+    //Когда игрок умирает
+    public static void OnHeroDied() => HeroDied?.Invoke();
+    //Когда игрок получает новый уровень
     public static void OnPlayerLevelUp() => PlayerLevelUp?.Invoke();
+}
 
-    /// <summary>
-    /// Вызывает события, подписанные на обновление характеристик игрока
-    /// </summary>
-    public static void OnUpdateStatsData() => UpdateStatsData.Invoke();
+// События, связанные с Врагами
+public static class EnemyEvents
+{
+    public static event Action EnemyDied;
 
+    //Когда какой либо враг умирает
+    public static void OnEnemyDied() => EnemyDied?.Invoke();
+}
+
+// События, связанные с инвентарем
+public static class UIEvents
+{
+    public static event Action UpdateSlotsData;
+    public static event Action UpdateStatsData;
+    //public static event Action ;
+
+    //Когда обновляются слоты инвенторя
+    public static void OnUpdateSlots() => UpdateSlotsData?.Invoke();
+    //Когда обновляются характеристики игрока в книге
+    public static void OnUpdateStatsData() => UpdateStatsData?.Invoke();
 }
