@@ -50,6 +50,26 @@ public class CharacterController : Stats, ICharacterHealthChanged, ICharacterMov
     [SerializeField]
     private bool IsAttacking = false;
 
+    private static CharacterController _instance;
+    public static CharacterController Instance
+    {
+        get
+        {
+            if (_instance is null)
+            {
+                _instance = FindObjectOfType<CharacterController>();
+                if (_instance is null)
+                {
+                    GameObject singleton = new GameObject(typeof(CharacterController).ToString());
+                    _instance = singleton.AddComponent<CharacterController>();
+                    DontDestroyOnLoad(singleton);
+                }
+            }
+            return _instance;
+        }
+    }
+
+
     private Rigidbody2D rb;
     private SpriteRenderer CharacterSprite;
     private CharacterAnimator Animations;
@@ -165,14 +185,4 @@ public class CharacterController : Stats, ICharacterHealthChanged, ICharacterMov
         Speed = 0f;
         EventBus.OnHeroDied();
     }
-
-
-    /*
-    //��������� ������
-    public void OnDrawGizmosSelected()
-    {
-        if (AttackTriggerPosition is null) return;
-        Gizmos.DrawWireSphere((CharacterSprite.flipX) ? new Vector2(AttackTriggerPosition.position.x - 2, AttackTriggerPosition.position.y) : AttackTriggerPosition.position, AttackRange);
-    }
-    */
 }

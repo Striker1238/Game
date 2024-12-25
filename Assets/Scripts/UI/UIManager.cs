@@ -1,8 +1,10 @@
 using Inventory;
+using Mono.Collections.Generic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Unity.Android.Gradle;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -24,7 +26,7 @@ public class UIManager : MonoBehaviour
     [Header("PlayerBook")]
     public TextMeshProUGUI Point_TMP;
     public TextMeshProUGUI Level_TMP;
-
+    public List<StatTextBlock> StatTMPBlock;
 
     private static UIManager _instance;
     public static UIManager Instance
@@ -87,9 +89,20 @@ public class UIManager : MonoBehaviour
         //EventBus.OnUpdateStatsData();
     }
 
-    private void LevelTMPInBook(int level) => Level_TMP.text = $"Level: {level}";
-    private void PointTMPInBook(int point) => Level_TMP.text = $"Point: {point}";
-
+    public void UpdateTextBlocks()
+    {
+        foreach (var entry in StatTMPBlock)
+        {
+            if (entry != null)
+            {
+                //entry.text = 
+            }
+            else
+            {
+                Debug.LogWarning("TextMeshProUGUI блок не задан.");
+            }
+        }
+    }
 
     public void Update()
     {
