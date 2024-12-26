@@ -1,11 +1,10 @@
+using DG.Tweening;
 using Inventory;
 using Mono.Collections.Generic;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
-using Unity.Android.Gradle;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
@@ -21,7 +20,14 @@ public class UIManager : MonoBehaviour
     public Image HealthPointBar;
     public GameObject SlotPrefab;
     public GameObject InventoryPerent;
+    private Vector3 StartPositionInventory;
+    private Vector3 EndPositionInventory;
+    private Sequence InventoryAnimation;
+
     public GameObject StatsBook;
+    private Vector3 StartPositionStatsBook;
+    private Vector3 EndPositionStatsBook;
+    private Sequence StatsBookAnimation;
 
     [Header("PlayerBook")]
     public TextMeshProUGUI Point_TMP;
@@ -59,12 +65,22 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
+
+        
+        
     }
 
     public void Start()
     {
         PlayerEvents.HitHero += ChangeHealthPoint;
         UIEvents.UpdateStatsData += UpdateTextBlocks;
+
+        EndPositionInventory = InventoryPerent.GetComponent<RectTransform>().anchoredPosition;
+        StartPositionInventory = new Vector3(EndPositionInventory.x - 300, EndPositionInventory.y, EndPositionInventory.z);
+
+
+        EndPositionStatsBook = StatsBook.GetComponent<RectTransform>().anchoredPosition;
+        StartPositionStatsBook = new Vector3(EndPositionStatsBook.x - 200, EndPositionStatsBook.y,EndPositionStatsBook.z);
     }
 
     public void ChangeHealthPoint(int HealthPoint, int MaxHealthPoint)
@@ -73,12 +89,23 @@ public class UIManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Метод открытия инвенторя
+    /// Метод открытия инвентаря
     /// </summary>
     public void InventoryOpen()
     {
-        InventoryPerent.SetActive(!InventoryPerent.activeSelf);
-        UIEvents.OnUpdateSlots();
+        bool State = InventoryPerent.activeSelf;
+        if (InventoryAnimation != null) InventoryAnimation.Complete();
+        InventoryAnimation = DOTween.Sequence();
+        InventoryAnimation
+            .OnStart(() => InventoryPerent.SetActive(true))
+            .Append(InventoryPerent.GetComponent<CanvasGroup>().DOFade((!State ? 1 : 0), 0.7f))
+            .Join(InventoryPerent.GetComponent<RectTransform>().DOAnchorPos((State ? StartPositionInventory : EndPositionInventory), 0.7f).From(State ? EndPositionInventory : StartPositionInventory))
+            .OnComplete(() =>
+            {
+                if (InventoryPerent.GetComponent<CanvasGroup>().alpha == 0) InventoryPerent.SetActive(false);
+            });
+
+        if (StatsBook.activeSelf) UIEvents.OnUpdateSlots();
     }
 
     /// <summary>
@@ -86,9 +113,20 @@ public class UIManager : MonoBehaviour
     /// </summary>
     public void PlayerBookOpen()
     {
-        StatsBook.SetActive(!StatsBook.activeSelf);
+        bool State = StatsBook.activeSelf;
+        if (StatsBookAnimation != null) StatsBookAnimation.Complete();
+        StatsBookAnimation = DOTween.Sequence();
+        StatsBookAnimation
+            .OnStart(() => StatsBook.SetActive(true))
+            .Append(StatsBook.GetComponent<CanvasGroup>().DOFade((!State ? 1 : 0), 0.7f))
+            .Join(StatsBook.GetComponent<RectTransform>().DOAnchorPos((State ? StartPositionStatsBook : EndPositionStatsBook), 0.7f).From(State ? EndPositionStatsBook : StartPositionStatsBook))
+            .OnComplete(() =>
+            {
+                if (StatsBook.GetComponent<CanvasGroup>().alpha == 0) StatsBook.SetActive(false);
+            });
 
-        if(StatsBook.activeSelf) UIEvents.OnUpdateStatsData();
+
+        if (StatsBook.activeSelf) UIEvents.OnUpdateStatsData();
     }
 
     //TODO: ВОЗМОЖНО ПЕРЕНЕСТИ В GameManager
@@ -148,10 +186,14 @@ public class UIManager : MonoBehaviour
         foreach (var StatButtons in StatTMPBlock)
         {
             StatButtons.UpButton.SetActive(visible);
-            //StatButtons.DownButton.SetActive(visible);
+            StatButtons.DownButton.SetActive(visible);
         }
     }
-    
+    public void UpCharacteristics(string NameCharacteristic)
+    {
+        Debug.Log("Click");
+        UIEvents.OnUpCharacteristic(NameCharacteristic);
+    }
 
 
 

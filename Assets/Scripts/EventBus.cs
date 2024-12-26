@@ -40,10 +40,13 @@ public static class UIEvents
 {
     public static event Action UpdateSlotsData;
     public static event Action UpdateStatsData;
+    public static event Action<string> UpCharacteristic;
     //public static event Action ;
 
     //Когда обновляются слоты инвенторя
     public static void OnUpdateSlots() => UpdateSlotsData?.Invoke();
     //Когда обновляются характеристики игрока в книге
     public static void OnUpdateStatsData() => UpdateStatsData?.Invoke();
+    //
+    public static void OnUpCharacteristic(string NameCharacteristic) => UpCharacteristic?.Invoke(NameCharacteristic);
 }

@@ -35,8 +35,8 @@ public class CharacterController : Stats
             if (_healthPoint <= 0) GetComponent<CharacterMovement>().Died();
         }
     }
-    [SerializeField] private int _points = 27;
-    public int Points { 
+    [SerializeField] private protected int _points = 20;
+    protected internal int Points { 
         get => _points;
         set
         {
@@ -45,11 +45,53 @@ public class CharacterController : Stats
         }
     }
 
-    public void HeroLevelUp()
+    public void Start()
+    {
+        UIEvents.UpCharacteristic += IncreaseCharacteristics;
+    }
+    private void HeroLevelUp()
     {
         
         //Предложить сразу улучшить характеристики
 
         PlayerEvents.OnPlayerLevelUp();
+    }
+    private void IncreaseCharacteristics(string NameCharacteristic)
+    {
+        if (Points <= 0) return;
+        Debug.Log(NameCharacteristic);
+        
+        switch (NameCharacteristic.ToLower())
+        {
+            case "strength":
+                Strength++;
+                break;
+            case "agility":
+                Agility++;
+                break;
+            case "constitution":
+                Constitution++;
+                break;
+            case "intelligence":
+                Intelligence++;
+                break;
+            case "wisdom":
+                Wisdom++;
+                break;
+            case "charisma":
+                Charisma++;
+                break;
+            default:
+                Debug.Log($"Неизвестная характеристика: {NameCharacteristic}");
+                return;
+        }
+        Points--;
+
+        //Обновляем визуализацию текста в книге
+        UIEvents.OnUpdateStatsData();
+    }
+    private void DecreaseCharacteristics()
+    {
+
     }
 }

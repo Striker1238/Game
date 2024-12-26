@@ -121,7 +121,7 @@ public class CharacterMovement : MonoBehaviour, ICharacterHealthChanged, ICharac
 
             foreach (var Enemies in HitEnemies)
             {
-                Enemies.GetComponent<EnemyController>()?.DamageReceived(Controller.Damage);
+                Enemies.GetComponent<EnemyAI>()?.DamageReceived(Controller.Damage);
             }
         }
     }
@@ -138,7 +138,6 @@ public class CharacterMovement : MonoBehaviour, ICharacterHealthChanged, ICharac
     {
         GameObject _hitText = Instantiate(GameManager.Instance.PrefabHitText, gameObject.transform);
         _hitText.GetComponent<TextMeshPro>().text = $"-{damage}";
-
         Controller.HealthPoint -= damage;
         PlayerEvents.OnHitHero(Controller.HealthPoint, Controller.MaxHealthPoint);
     }

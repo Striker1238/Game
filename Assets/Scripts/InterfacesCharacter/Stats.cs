@@ -134,12 +134,12 @@ public abstract class Stats : MonoBehaviour
 
 
     [Header("Characteristic modifier")]
-    [SerializeField] protected internal int StrengthModifier { get; set; }
-    [SerializeField] protected internal int AgilityModifier { get; set; }
-    [SerializeField] protected internal int ConstitutionModifier { get; set; }
-    [SerializeField] protected internal int IntelligenceModifier { get; set; }
-    [SerializeField] protected internal int WisdomModifier { get; set; }
-    [SerializeField] protected internal int CharismaModifier { get; set; }
+    [SerializeField] protected internal int StrengthModifier;
+    [SerializeField] protected internal int AgilityModifier;
+    [SerializeField] protected internal int ConstitutionModifier;
+    [SerializeField] protected internal int IntelligenceModifier;
+    [SerializeField] protected internal int WisdomModifier;
+    [SerializeField] protected internal int CharismaModifier;
 
 
 

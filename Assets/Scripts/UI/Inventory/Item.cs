@@ -19,12 +19,12 @@ namespace Inventory
     public class Item : ScriptableObject
     {
         protected int ID { get; set; }
-        [SerializeField] protected string Name;
+        [SerializeField] protected internal string Name;
         [TextArea(3,20)]
-        [SerializeField] protected string Description;
-        [SerializeField] protected Sprite Image;
-        [SerializeField] protected ItemRarity Rarity;
-        [SerializeField] protected SlotType Type;
+        [SerializeField] protected internal string Description;
+        [SerializeField] protected internal Sprite Image;
+        [SerializeField] protected internal ItemRarity Rarity;
+        [SerializeField] protected internal SlotType Type;
         //[SerializeField] protected object? ItemScript;
     }
 }
