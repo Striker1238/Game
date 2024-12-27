@@ -809,7 +809,7 @@ CanvasGroup:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 488726270}
   m_Enabled: 1
-  m_Alpha: 0
+  m_Alpha: 1
   m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
@@ -1845,7 +1845,7 @@ GameObject:
   - component: {fileID: 865095597}
   - component: {fileID: 865095596}
   - component: {fileID: 865095595}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grass
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -1981,7 +1981,7 @@ GameObject:
   - component: {fileID: 1089804675}
   - component: {fileID: 1089804677}
   - component: {fileID: 1089804676}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grass (2)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -3128,7 +3128,7 @@ GameObject:
   - component: {fileID: 1937560189}
   - component: {fileID: 1937560191}
   - component: {fileID: 1937560190}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Grass (1)
   m_TagString: Ground
   m_Icon: {fileID: 0}
@@ -3657,7 +3657,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 595000983335898444, guid: cc93d3f645b92ce409461af3f82763b0, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 695352080320807697, guid: cc93d3f645b92ce409461af3f82763b0, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.size
@@ -4690,6 +4690,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1787303604174750886, guid: 8ebd12cd659561f40b17020dba293c72, type: 3}
+      propertyPath: _healthPoint
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 1787303604174750886, guid: 8ebd12cd659561f40b17020dba293c72, type: 3}
       propertyPath: ItemDrop.Array.size
       value: 3

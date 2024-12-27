@@ -5,8 +5,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using TMPro;
-using Unity.Burst.CompilerServices;
-using Unity.VisualScripting;
 using UnityEngine;
 
 [RequireComponent(typeof(Rigidbody2D))]
@@ -59,14 +57,21 @@ public class EnemyAI : MonoBehaviour, ICharacterHealthChanged, ICharacterMove, I
             GameObject item = new GameObject(obj.name);
             item.AddComponent<SpriteRenderer>().sprite = obj.Image;
             item.GetComponent<SpriteRenderer>().sortingOrder = 5;
+            item.AddComponent<CircleCollider2D>().radius = 0.2f;
+            item.GetComponent<CircleCollider2D>().isTrigger = true;
+            item.layer = 9;
             item.transform.position = transform.position;
 
             Debug.Log($"{item.name}");
 
+            // Определяем позицию земли с учетом высоты коллайдера
+            RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, Mathf.Infinity, LayerMask.GetMask("Ground"));
 
-            yield return item.transform
-                .DOJump(item.transform.position +Vector3.left*Random.Range(-1.5f,1.5f), 0.1f, 1, 1f)
-                .SetEase(Ease.OutBounce)
+            Sequence itemDrop = DOTween.Sequence();
+            
+            yield return itemDrop
+                .Append(item.transform.DOMoveX(item.transform.position.x + Random.Range(-1.5f, 1.5f), 1f).SetEase(Ease.OutCubic))
+                .Join(item.transform.DOMoveY(hit.collider != null ? hit.point.y + 0.1f : item.transform.position.y, 1f).SetEase(Ease.OutBounce))
                 .WaitForCompletion();
         }
         yield return null;

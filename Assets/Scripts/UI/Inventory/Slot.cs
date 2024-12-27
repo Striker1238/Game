@@ -19,22 +19,26 @@ namespace Inventory
 
     public class Slot : MonoBehaviour, ISlot
     {
-        public int ID;
+        protected internal int ID;
         public SlotType Type;
         public Item StorageItem;
+        private int CountItem;
+
+
         public Slot() : this(SlotType.Backpack) { }
-        public Slot( SlotType type) : this(type,null) { }
-        public Slot( SlotType type, Item? item)
+        public Slot( SlotType type) : this(type,null,0) { }
+        public Slot( SlotType type, Item? item, int count)
         {
             Type = type;
             StorageItem = item;
+            CountItem = count;
         }
 
+        public int Count() => CountItem;
         public void Move()
         {
             throw new NotImplementedException();
         }
-
         public void Select()
         {
             throw new NotImplementedException();

@@ -1,4 +1,5 @@
 
+using DG.Tweening;
 using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -18,8 +19,8 @@ public class CharacterMovement : MonoBehaviour, ICharacterHealthChanged, ICharac
     private float Speed = 0;
     [SerializeField] private float JumpForce = 1;
     [SerializeField] private Vector3 GroundCheckOffset;
-
-
+    [SerializeField] private float CollectRadius;
+    public LayerMask itemLayer;
     private Vector3 Force;
     private bool IsMoving = false;
     private bool IsGrounded = true;
@@ -145,5 +146,36 @@ public class CharacterMovement : MonoBehaviour, ICharacterHealthChanged, ICharac
     {
         Speed = 0f;
         PlayerEvents.OnHeroDied();
+    }
+    public void TryCollectItems()
+    {
+        Collider2D[] itemsInRadius = Physics2D.OverlapCircleAll(transform.position, CollectRadius, itemLayer);
+
+        if (itemsInRadius.Length > 0)
+        {
+            foreach (var item in itemsInRadius)
+            {
+                // Обработка поднятия предмета
+                StartCoroutine(CollectItem(item.gameObject));
+            }
+        }
+        else
+        {
+            // Вывод сообщения, если предметов нет
+            Debug.Log("Я ничего не вижу");
+        }
+    }
+
+    private IEnumerator CollectItem(GameObject item)
+    {
+
+        Debug.Log($"Поднят предмет: {item.name}");
+        //Анимация подбора предмета
+        Sequence anim = DOTween.Sequence();
+        yield return anim
+            .Append(item.transform.DOMoveX(transform.position.x, 1f).SetEase(Ease.InQuad))
+            .Join(item.transform.DOMoveY(transform.position.y, 1f).SetEase(Ease.InBounce))
+            .OnComplete(() => Destroy(item))
+            .WaitForCompletion();
     }
 }
