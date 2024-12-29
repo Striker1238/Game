@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Inventory
 {
-    [CreateAssetMenu(fileName = "ItemData", menuName = "Inventory/Weapon")]
+    [CreateAssetMenu(fileName = "ItemData", menuName = "Inventory/New Weapon")]
     public class Weapon : Item
     {
         [SerializeField]protected int _level = 0;

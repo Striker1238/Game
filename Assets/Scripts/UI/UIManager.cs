@@ -65,9 +65,6 @@ public class UIManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-
-        
-        
     }
 
     public void Start()
@@ -137,10 +134,10 @@ public class UIManager : MonoBehaviour
     /// </summary>
     private void UpdateTextBlocks()
     {
-        var player = CharacterController.Instance;
+        var player = CharacterController.Instance.stats.AttributeHolder;
 
         Level_TMP.text =  $"Level: {player.Level}";
-        Point_TMP.text = $"Points: {player.Points}";
+        //Point_TMP.text = $"Points: {player.Points}";
 
         foreach (var statBlock in StatTMPBlock)
         {

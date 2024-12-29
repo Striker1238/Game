@@ -47,9 +47,11 @@ GameObject:
   - component: {fileID: 8550000968882258235}
   - component: {fileID: 8550000968882258234}
   - component: {fileID: 1787303604174750886}
+  - component: {fileID: 2240886788175645530}
+  - component: {fileID: 7656783441963242023}
   m_Layer: 0
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -260,26 +262,42 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13918d195d2fb7849b730a542a9cb6da, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaxHealthPoint: 50
-  _healthPoint: 50
-  MaxManaPool: 50
-  _manaPool: 50
-  _dodge: 0
-  _name: 
-  _level: 0
-  _strength: 10
-  _agility: 10
-  _constitution: 10
-  _intelligence: 10
-  _wisdom: 10
-  _charisma: 10
-  StrengthModifier: 0
-  AgilityModifier: 0
-  ConstitutionModifier: 0
-  IntelligenceModifier: 0
-  WisdomModifier: 0
-  CharismaModifier: 0
-  _damage: 5
-  AttackRange: 0.5
+  stats: {fileID: 11400000, guid: 026b48ac1477d8148bb9e9f643666c40, type: 2}
+  sprite: {fileID: 0}
+--- !u!114 &2240886788175645530
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8550000968882258208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06a0e0c397bffd5439006693b84159e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
   AttackTriggerPosition: {fileID: 8429220301176074495}
-  ItemDrop: []
+--- !u!114 &7656783441963242023
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8550000968882258208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ef703327355acf4d9341fc46708d064, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  itemLayer:
+    serializedVersion: 2
+    m_Bits: 512
+  floorLayer:
+    serializedVersion: 2
+    m_Bits: 64
+  itemDrop:
+  - {fileID: 11400000, guid: 340daee10daf5854291ed222bc1e1c40, type: 2}
+  - {fileID: 11400000, guid: 340daee10daf5854291ed222bc1e1c40, type: 2}
+  - {fileID: 11400000, guid: 340daee10daf5854291ed222bc1e1c40, type: 2}
+  itemDropTimeDuration: 1
+  scatterItemDropRadius: 1.5

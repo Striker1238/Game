@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(Animator))]
-public class EnemyAnimator : MonoBehaviour
+public class EnemyAnimatorComponent : MonoBehaviour
 {
     [SerializeField]private string NameMovingAnimation;
     [SerializeField]private string NameAttackAnimation;

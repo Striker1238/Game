@@ -1,7 +1,20 @@
 using UnityEngine;
-//TODO: увеличивать количество поинтов, когда повышается уровень
-public class CharacterController : Stats
+
+[RequireComponent(typeof(MovementComponent))]
+[RequireComponent(typeof(CombatComponent))]
+[RequireComponent(typeof(HealthComponent))]
+[RequireComponent(typeof(CollectorComponent))]
+[RequireComponent(typeof(CharacterAnimatorController))]
+[RequireComponent(typeof(StatsComponent))]
+public class CharacterController : MonoBehaviour
 {
+    private MovementComponent movement;
+    private CombatComponent combat;
+    private HealthComponent health;
+    private CollectorComponent collector;
+    private CharacterAnimatorController animator;
+    protected internal StatsComponent stats = new();
+
     private static CharacterController _instance;
     public static CharacterController Instance
     {
@@ -21,20 +34,79 @@ public class CharacterController : Stats
         }
     }
 
-    [Header("Other Stats")]
-    public override int HealthPoint
-    {
-        get
-        {
-            return _healthPoint;
-        }
-        set
-        {
-            _healthPoint = Mathf.Clamp(value, 0, MaxHealthPoint);
 
-            if (_healthPoint <= 0) GetComponent<CharacterMovement>().Died();
+    private void Awake()
+    {
+        movement = GetComponent<MovementComponent>();
+        combat = GetComponent<CombatComponent>();
+        health = GetComponent<HealthComponent>();
+        collector = GetComponent<CollectorComponent>();
+        animator = GetComponent<CharacterAnimatorController>();
+        stats = GetComponent<StatsComponent>();
+    }
+    public void Start()
+    {
+        //UIEvents.UpCharacteristic += IncreaseCharacteristics;
+    }
+    private void Update()
+    {
+        HandleInput();
+        movement.GroundCheck();
+        animator.SetFlyingState(movement.IsFlying());
+        
+    }
+
+    private void HandleInput()
+    {
+        if (combat.IsAttacking) return;
+
+        if (Input.GetKeyDown(KeyCode.Space))
+        {
+            OnClickButtonJump();
+        }
+        if (Input.GetKey(KeyCode.A))
+        {
+            OnButtonLeftDown();
+        }
+        if (Input.GetKey(KeyCode.D))
+        {
+            OnButtonRigthDown();
+        }
+        if (Input.GetKeyUp(KeyCode.A) || Input.GetKeyUp(KeyCode.D))
+        {
+            OnButtonUp();
         }
     }
+    public void OnButtonLeftDown()
+    {
+        movement.Move(-1);
+    }
+    public void OnButtonRigthDown()
+    {
+        movement.Move(1);
+    }
+    public void OnClickButtonJump()
+    {
+        movement.Jump();
+    }
+    public void OnButtonUp()
+    {
+        movement.Move(0);
+        
+    }
+    public void OnAttack()
+    {
+        combat.Attack();
+    }
+}
+
+
+/*
+public class asd : Stats
+{
+
+    [Header("Other Stats")]
+    
     [SerializeField] private protected int _points = 20;
     protected internal int Points { 
         get => _points;
@@ -45,10 +117,7 @@ public class CharacterController : Stats
         }
     }
 
-    public void Start()
-    {
-        UIEvents.UpCharacteristic += IncreaseCharacteristics;
-    }
+    
     private void HeroLevelUp()
     {
         
@@ -95,3 +164,4 @@ public class CharacterController : Stats
 
     }
 }
+*/
