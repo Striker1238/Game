@@ -6,7 +6,7 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 [RequireComponent(typeof(EnemyStats))]
 [RequireComponent(typeof(EnemyCombatComponent))]
-[RequireComponent(typeof(HealthComponent))]
+[RequireComponent(typeof(EnemyHealthComponent))]
 [RequireComponent(typeof(EnemyAnimatorComponent))]
 [RequireComponent(typeof(DropItemController))]
 
@@ -15,26 +15,21 @@ public class EnemyAI : MonoBehaviour
 {
     //private MovementComponent movement;
     private EnemyCombatComponent combat;
-    private HealthComponent health;
+    private HealthComponentBase health;
     private EnemyAnimatorComponent animator;
-    private StatsComponent stats;
+    private EnemyStats stats;
     private DropItemController dropItemController;
 
     public void Start()
     {
         //movement = GetComponent<MovementComponent>();
         combat = GetComponent<EnemyCombatComponent>();
-        health = GetComponent<HealthComponent>();
+        health = GetComponent<HealthComponentBase>();
         animator = GetComponent<EnemyAnimatorComponent>();
-        stats = GetComponent<StatsComponent>();
+        stats = GetComponent<EnemyStats>();
         dropItemController = GetComponent<DropItemController>();
 
         StartCoroutine(attacker());
-    }
-
-    public void Update()
-    {
-
     }
     public IEnumerator attacker()
     {
@@ -48,5 +43,6 @@ public class EnemyAI : MonoBehaviour
     {
         //Временное решение, голова уже не шибко варит, а протестить хочется
         StartCoroutine(dropItemController.DropItems());
+        GetComponent<EnemyAnimatorComponent>().TriggerDied();
     }
 }

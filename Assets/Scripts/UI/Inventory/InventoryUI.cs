@@ -1,12 +1,12 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
 namespace Inventory
 {
-    // Отдельный класс для обновления UI
     public class InventoryUI : MonoBehaviour
     {
         [Header("UI References")]
@@ -17,9 +17,13 @@ namespace Inventory
 
         protected internal void InitializeUI(int maxSlots, List<Slot> slots)
         {
+            var inventory = GetComponent<CharacterStorage>().inventory;
             for (int i = 0; i < maxSlots; i++)
             {
                 var slotObject = Instantiate(slotPrefab, inventoryParent);
+                var slot = slotObject.GetComponent<Slot>();
+                inventory.Slots.Add(slot);
+                slot.GetType().GetProperty("Id")?.SetValue(slot, i);
                 slotObjects.Add(slotObject);
             }
 

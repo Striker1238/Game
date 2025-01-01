@@ -7,7 +7,7 @@ namespace Inventory
     {
         int MaxSlots { get; }
         List<Slot> Slots { get; }
-        void AddItem(int idSlot, Item item, int count);
+        bool AddItem(Item item, int count);
         void SubtractionItem(int idSlot, int count);
     }
 

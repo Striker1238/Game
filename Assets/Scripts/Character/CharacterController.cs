@@ -2,7 +2,7 @@ using UnityEngine;
 
 [RequireComponent(typeof(MovementComponent))]
 [RequireComponent(typeof(CombatComponent))]
-[RequireComponent(typeof(HealthComponent))]
+[RequireComponent(typeof(PlayerHealthComponent))]
 [RequireComponent(typeof(CollectorComponent))]
 [RequireComponent(typeof(CharacterAnimatorController))]
 [RequireComponent(typeof(StatsComponent))]
@@ -10,7 +10,7 @@ public class CharacterController : MonoBehaviour
 {
     private MovementComponent movement;
     private CombatComponent combat;
-    private HealthComponent health;
+    private HealthComponentBase health;
     private CollectorComponent collector;
     private CharacterAnimatorController animator;
     protected internal StatsComponent stats = new();
@@ -39,7 +39,7 @@ public class CharacterController : MonoBehaviour
     {
         movement = GetComponent<MovementComponent>();
         combat = GetComponent<CombatComponent>();
-        health = GetComponent<HealthComponent>();
+        health = GetComponent<HealthComponentBase>();
         collector = GetComponent<CollectorComponent>();
         animator = GetComponent<CharacterAnimatorController>();
         stats = GetComponent<StatsComponent>();
@@ -55,7 +55,6 @@ public class CharacterController : MonoBehaviour
         animator.SetFlyingState(movement.IsFlying());
         
     }
-
     private void HandleInput()
     {
         if (combat.IsAttacking) return;
@@ -92,76 +91,14 @@ public class CharacterController : MonoBehaviour
     public void OnButtonUp()
     {
         movement.Move(0);
-        
     }
     public void OnAttack()
     {
         combat.Attack();
     }
+    public void OnCollectItems()
+    {
+        collector.TryCollectItems();
+    }
+
 }
-
-
-/*
-public class asd : Stats
-{
-
-    [Header("Other Stats")]
-    
-    [SerializeField] private protected int _points = 20;
-    protected internal int Points { 
-        get => _points;
-        set
-        {
-            _points = value;
-            UIManager.Instance.VisualizationCharacteristicsButton(_points > 0);//Показываем кнопки для прокачки статов
-        }
-    }
-
-    
-    private void HeroLevelUp()
-    {
-        
-        //Предложить сразу улучшить характеристики
-
-        PlayerEvents.OnPlayerLevelUp();
-    }
-    private void IncreaseCharacteristics(string NameCharacteristic)
-    {
-        if (Points <= 0) return;
-        Debug.Log(NameCharacteristic);
-        
-        switch (NameCharacteristic.ToLower())
-        {
-            case "strength":
-                Strength++;
-                break;
-            case "agility":
-                Agility++;
-                break;
-            case "constitution":
-                Constitution++;
-                break;
-            case "intelligence":
-                Intelligence++;
-                break;
-            case "wisdom":
-                Wisdom++;
-                break;
-            case "charisma":
-                Charisma++;
-                break;
-            default:
-                Debug.Log($"Неизвестная характеристика: {NameCharacteristic}");
-                return;
-        }
-        Points--;
-
-        //Обновляем визуализацию текста в книге
-        UIEvents.OnUpdateStatsData();
-    }
-    private void DecreaseCharacteristics()
-    {
-
-    }
-}
-*/

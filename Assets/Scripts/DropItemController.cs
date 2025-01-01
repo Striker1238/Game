@@ -49,6 +49,10 @@ public class DropItemController: MonoBehaviour, IDropItem
         item.layer = Mathf.RoundToInt(Mathf.Log(itemLayer.value, 2));
         item.transform.position = transform.position;
 
+        var itemInfo = item.AddComponent<ItemInfo>();
+        itemInfo.Initialize(obj);
+
+
         Debug.Log($"{item.name} создан.");
         return item;
     }

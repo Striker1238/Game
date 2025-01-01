@@ -49,6 +49,7 @@ GameObject:
   - component: {fileID: 1787303604174750886}
   - component: {fileID: 2240886788175645530}
   - component: {fileID: 7656783441963242023}
+  - component: {fileID: 6310142670420042753}
   m_Layer: 0
   m_Name: Enemy
   m_TagString: Enemy
@@ -301,3 +302,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 340daee10daf5854291ed222bc1e1c40, type: 2}
   itemDropTimeDuration: 1
   scatterItemDropRadius: 1.5
+--- !u!114 &6310142670420042753
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8550000968882258208}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2239ff2bc8256d146aa6b06cd9d66876, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxHealthPoint: 10

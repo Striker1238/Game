@@ -22,7 +22,7 @@ public class EnemyCombatComponent: MonoBehaviour, ICombat
         foreach (var Enemies in HitEnemies)
         {
             if (Enemies.tag == "Enemy") continue;
-            Enemies.GetComponent<HealthComponent>()?.DecreaseHealth(Damage);
+            Enemies.GetComponent<HealthComponentBase>()?.DecreaseHealth(Damage);
         }
 
     }

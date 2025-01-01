@@ -26,7 +26,7 @@ public class CombatComponent : MonoBehaviour, ICombat
         foreach (var Enemies in HitEnemies)
         {
             if (Enemies.tag == "Player") continue;
-            Enemies.GetComponent<HealthComponent>()?.DecreaseHealth(Damage);
+            Enemies.GetComponent<HealthComponentBase>()?.DecreaseHealth(Damage);
         }
 
     }

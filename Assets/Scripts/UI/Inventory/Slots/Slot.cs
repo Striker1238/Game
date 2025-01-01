@@ -9,12 +9,12 @@ namespace Inventory
         Weapon
     }
 
-    public class Slot :MonoBehaviour, ISlot
+    public class Slot: MonoBehaviour, ISlot
     {
         public int Id { get; private set; }
-        public SlotType Type { get; private set; }
-        public Item? StorageItem { get; private set; }
-        public int CountItem { get; private set; }
+        public SlotType Type { get; private set; } = SlotType.Backpack;
+        public Item? StorageItem { get; private set; } = null;
+        public int CountItem { get; private set; } = 0;
 
 
         public Slot(int id) : this(id, SlotType.Backpack) { }
@@ -26,7 +26,6 @@ namespace Inventory
             StorageItem = item;
             CountItem = count;
         }
-        
         public void AddItem(Item item, int count)
         {
             StorageItem = item;

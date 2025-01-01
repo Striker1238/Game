@@ -8,7 +8,7 @@ namespace Inventory
         [Header("Storage Settings")]
         [SerializeField] private int maxInventorySlot;
 
-        private IStorage inventory;
+        [SerializeField] protected internal InventoryStorage inventory;
         private InventoryUI inventoryUI;
 
         private void Start()

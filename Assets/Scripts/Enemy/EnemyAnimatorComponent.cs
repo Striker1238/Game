@@ -10,28 +10,31 @@ public class EnemyAnimatorComponent : MonoBehaviour
     [SerializeField]private string NameDiedAnimation;
     [SerializeField]private string NameHitAnimation;
 
-    private Animator AnimatorController;
+    private Animator animator;
 
     public bool IsMoving { private get; set; }
     public void Start()
     {
-        AnimatorController = GetComponent<Animator>();
+        animator = GetComponent<Animator>();
     }
     public void Update()
     {
-        AnimatorController?.SetBool(NameMovingAnimation, IsMoving);
+        animator?.SetBool(NameMovingAnimation, IsMoving);
     }
-
-    public void Attack()
+    public void TriggerJump()
     {
-        AnimatorController.SetTrigger(NameAttackAnimation);
+        animator?.SetTrigger("Jump");
     }
-    public void Died()
+    public void TriggerAttack()
     {
-        AnimatorController.SetTrigger(NameDiedAnimation);
+        animator?.SetTrigger(NameAttackAnimation);
     }
-    public void Hit()
+    public void TriggerHit()
     {
-        AnimatorController.SetTrigger(NameHitAnimation);
+        animator.SetTrigger(NameHitAnimation);
     }
+    public void TriggerDied()
+    {
+        animator?.SetTrigger(NameDiedAnimation);
+    }    
 }
