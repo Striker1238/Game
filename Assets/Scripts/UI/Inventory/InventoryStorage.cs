@@ -21,6 +21,7 @@ namespace Inventory
             var SuitableSlot = Slots.Find(slot => slot.StorageItem?.ID == item.ID);
             if (SuitableSlot != null) 
             {
+                Debug.Log($"Добавил предмет такой же слот");
                 SuitableSlot.AddItem(item, count);
                 return true;
             }
@@ -29,6 +30,7 @@ namespace Inventory
             SuitableSlot = Slots.Find(slot => slot?.StorageItem == null);
             if (SuitableSlot != null)
             {
+                Debug.Log($"Добавил предмет в пустой слот");
                 SuitableSlot.AddItem(item, count);
                 return true;
             }

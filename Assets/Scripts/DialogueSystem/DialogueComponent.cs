@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NUnit.Framework;
+using System;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
@@ -25,23 +26,46 @@ namespace DialogueSystem
         {
             optionObjects = new List<GameObject>();
             //Тест системы диалогов
-            currentNode = new DialogueNode("Тут какой то текст, по типу рассказ торговца")
-            { Options = new List<IOption>(3) {   
-                new DialogueOption("Привет!", new DialogueNode("Не хочешь что нибудь приобрести у меня в магазине?")
-                { Options = new List<IOption>(2)
+            currentNode = new DialogueNode("Добро пожаловать, путник. Хочешь узнать об этих землях?")
+            {
+                Options = new List<IOption>(3)
                 {
-                    new TradeOption("Посмотреть магазин"),
-                    new DialogueOption("Пока")
-                } }),
-                new DialogueOption("Как я тут оказался?", new DialogueNode("Долгая история, когда нибудь я расскажу, лучше глянь в мой магазин")
-                { Options = new List<IOption>(2)
-                {
-                    new TradeOption("Посмотреть магазин"),
-                    new DialogueOption("Пока")
-                } }),
-                new DialogueOption("Пока")
-            } };
-            
+                    new DialogueOption("Да, расскажи мне о них.", new DialogueNode("Эти земли некогда были частью великого королевства Альтариона. Но после Великого Раскола, мир изменился навсегда.")
+                    {
+                        Options = new List<IOption>(2)
+                        {
+                            new DialogueOption("Что за Великий Раскол?", new DialogueNode("Около сотни лет назад маги и короли разорвали мир на части в битве за древнюю силу. Магическая буря уничтожила города и создала эти пустоши.")
+                            {
+                                Options = new List<IOption>(2)
+                                {
+                                    new DialogueOption("И что случилось с магами?", new DialogueNode("Маги... они исчезли. Кто-то говорит, что они скрылись в тенях, другие — что они заплатили своими жизнями за свое безумие. Но следы их магии до сих пор отравляют эти земли.")
+                                    {
+                                        Options = new List<IOption>(2)
+                                        {
+                                            new DialogueOption("Это звучит жутко. Спасибо за рассказ."),
+                                            new DialogueOption("Что за сила была так важна?")
+                                        }
+                                    }),
+                                    new DialogueOption("Похоже, это непростое место. Спасибо за информацию.")
+                                }
+                            }),
+                            new DialogueOption("Пустоши — это опасно? Расскажи больше.")
+                        }
+                    }),
+                    new DialogueOption("Мне неинтересно. Что ты продаешь?", new DialogueNode("У меня самые разные товары, выбирай любые, но с умом!")
+                    {
+                        Options = new List<IOption>(2)
+                        {
+                            new TradeOption("Посмотреть товары"),
+                            new DialogueOption("Мне пора идти. До встречи.")
+                        } 
+                    }),
+                    
+                    new DialogueOption("Мне пора идти. До встречи.")
+                }
+            };
+
+
         }
         public void Update()
         {
@@ -67,7 +91,7 @@ namespace DialogueSystem
                     Destroy(option);
                 optionObjects.Clear();
             }
-            
+            dialogPanel.SetActive(true);
 
             dialogPanel.GetComponentInChildren<TextMeshPro>().text = currentNode.Text;
             for (int i = 0; i < currentNode.Options.Count; i++)
@@ -100,10 +124,15 @@ namespace DialogueSystem
             if (selectedOption is DialogueOption dialogueOption)
                 currentNode = dialogueOption.NextNode;
 
-            if(currentNode != null) ShowDialogue();
+            if(CanCommunicate()) ShowDialogue();
             else dialogPanel.SetActive(false);
         }
 
+        /// <summary>
+        /// Checks if we can talk to NPC
+        /// Is currentNode != null
+        /// </summary>
+        /// <returns></returns>
         public bool CanCommunicate()
         {
             return currentNode != null;

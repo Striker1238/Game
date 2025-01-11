@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8429220301176074495}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: AttackPointer
   m_TagString: Untagged
   m_Icon: {fileID: 7174288486110832750, guid: 0000000000000000d000000000000000, type: 0}
@@ -41,16 +41,16 @@ GameObject:
   m_Component:
   - component: {fileID: 8550000968882258214}
   - component: {fileID: 8550000968882258209}
+  - component: {fileID: 8550000968882258234}
   - component: {fileID: 8550000968882258213}
   - component: {fileID: 8550000968882258212}
   - component: {fileID: 8550000968882258215}
   - component: {fileID: 8550000968882258235}
-  - component: {fileID: 8550000968882258234}
   - component: {fileID: 1787303604174750886}
   - component: {fileID: 2240886788175645530}
   - component: {fileID: 7656783441963242023}
   - component: {fileID: 6310142670420042753}
-  m_Layer: 0
+  m_Layer: 10
   m_Name: Enemy
   m_TagString: Enemy
   m_Icon: {fileID: 0}
@@ -116,7 +116,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 5
+  m_SortingOrder: 6
   m_Sprite: {fileID: -750047184722822154, guid: 1914d95466e3d4341a618c35a56d5f82, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -128,6 +128,28 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!95 &8550000968882258234
+Animator:
+  serializedVersion: 7
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8550000968882258208}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: ccee253ff083e9e45ac8d4d553de6318, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_AnimatePhysics: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!50 &8550000968882258213
 Rigidbody2D:
   serializedVersion: 5
@@ -229,28 +251,6 @@ MonoBehaviour:
   NameAttackAnimation: Attack
   NameDiedAnimation: Died
   NameHitAnimation: Hit
---- !u!95 &8550000968882258234
-Animator:
-  serializedVersion: 7
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8550000968882258208}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: ccee253ff083e9e45ac8d4d553de6318, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_StabilizeFeet: 0
-  m_AnimatePhysics: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorStateOnDisable: 0
-  m_WriteDefaultValuesOnDisable: 0
 --- !u!114 &1787303604174750886
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -296,6 +296,7 @@ MonoBehaviour:
   floorLayer:
     serializedVersion: 2
     m_Bits: 64
+  itemSortingOrder: 6
   itemDrop:
   - {fileID: 11400000, guid: 340daee10daf5854291ed222bc1e1c40, type: 2}
   - {fileID: 11400000, guid: 340daee10daf5854291ed222bc1e1c40, type: 2}

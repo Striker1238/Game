@@ -11,6 +11,7 @@ namespace Inventory
         Artifact
     }
     [CreateAssetMenu(fileName ="ItemData", menuName ="Inventory/New Item")]
+    [SerializeField]
     public class Item : ScriptableObject
     {
         [SerializeField] private int _id;

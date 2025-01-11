@@ -13,7 +13,9 @@ namespace Inventory
     {
         public int Id { get; private set; }
         public SlotType Type { get; private set; } = SlotType.Backpack;
-        public Item? StorageItem { get; private set; } = null;
+        [SerializeField]
+        public Item? storageItem;
+        public Item? StorageItem { get => storageItem; private set => storageItem = value; }
         public int CountItem { get; private set; } = 0;
 
 

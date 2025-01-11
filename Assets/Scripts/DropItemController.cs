@@ -10,6 +10,7 @@ public class DropItemController: MonoBehaviour, IDropItem
 {
     [SerializeField] private LayerMask itemLayer;
     [SerializeField] private LayerMask floorLayer;
+    [SerializeField] private int itemSortingOrder;
     [SerializeField] private List<Item>? itemDrop;
     public List<Item> ItemDrop => itemDrop;
 
@@ -21,6 +22,7 @@ public class DropItemController: MonoBehaviour, IDropItem
 
     public IEnumerator DropItems()
     {
+        yield return new WaitForSeconds(0.5f);
         foreach (var obj in ItemDrop)
         {
             // Создаём объект для выпадения предмета
@@ -30,7 +32,8 @@ public class DropItemController: MonoBehaviour, IDropItem
             Vector2 dropTargetPosition = CalculateDropPosition(item.transform.position);
 
             // Анимация выпадения
-            yield return AnimateItemDrop(item, dropTargetPosition);
+            StartCoroutine( AnimateItemDrop(item, dropTargetPosition));
+            yield return new WaitForSeconds(0.3f);
         }
         Destroy(gameObject);
     }
@@ -40,7 +43,7 @@ public class DropItemController: MonoBehaviour, IDropItem
         GameObject item = new GameObject(obj.name);
         var spriteRenderer = item.AddComponent<SpriteRenderer>();
         spriteRenderer.sprite = obj.Image;
-        spriteRenderer.sortingOrder = 5;
+        spriteRenderer.sortingOrder = itemSortingOrder;
 
         var collider = item.AddComponent<CircleCollider2D>();
         collider.radius = 0.2f;
@@ -52,8 +55,6 @@ public class DropItemController: MonoBehaviour, IDropItem
         var itemInfo = item.AddComponent<ItemInfo>();
         itemInfo.Initialize(obj);
 
-
-        Debug.Log($"{item.name} создан.");
         return item;
     }
 

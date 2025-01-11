@@ -32,13 +32,13 @@ namespace Inventory
 
         protected internal void UpdateUI(List<Slot> slots)
         {
+            
             for (int i = 0; i < slots.Count; i++)
             {
                 var slot = slots[i];
                 var slotObject = slotObjects[i];
 
                 if (slot == null) continue;
-
                 // Обновление текста и изображения
                 var text = slotObject.GetComponentInChildren<TextMeshProUGUI>();
                 text.text = (slot.CountItem > 1) ? slot.CountItem.ToString() : "";
