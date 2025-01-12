@@ -4,6 +4,8 @@ public class StatsComponent : MonoBehaviour
 {
     [SerializeField] private Stats attributeHolder;
     public Stats AttributeHolder => attributeHolder;
+    [SerializeField] private int points = 20;
+    public int Points => points;
     private void Start()
     {
         if (AttributeHolder == null)

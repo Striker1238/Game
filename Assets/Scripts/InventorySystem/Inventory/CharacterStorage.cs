@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using UI.Inventory;
 
 namespace Inventory
 {
@@ -18,12 +19,12 @@ namespace Inventory
             inventory = new InventoryStorage(maxInventorySlot);
             inventoryUI = GetComponent<InventoryUI>();
 
+            // Инициализируем наш инвентарь 
             inventoryUI.InitializeUI(maxInventorySlot, inventory.Slots);
         }
 
-        public void UpdateInventoryUI()
-        {
-            inventoryUI.UpdateUI(inventory.Slots);
-        }
+
+        // Обновление инвентаря
+        public void UpdateInventoryUI() => inventoryUI.UpdateUI(inventory.Slots);
     }
 }

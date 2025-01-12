@@ -1,38 +1,50 @@
-﻿using System.Collections.Generic;
+﻿using Inventory;
+using System.Collections.Generic;
 using System.Linq;
 using TMPro;
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.UI;
 
-namespace Inventory
+namespace UI.Inventory
 {
+    [RequireComponent(typeof(UIAnimationHandler))]
     public class InventoryUI : MonoBehaviour
     {
         [Header("UI References")]
         [SerializeField] private GameObject slotPrefab;
-        [SerializeField] private Transform inventoryParent;
+        [SerializeField] private GameObject inventoryParent;
+        private UIAnimationHandler animationHandler;
 
         private List<GameObject> slotObjects = new List<GameObject>();
 
+
+        public void Awake()
+        {
+            animationHandler = GetComponent<UIAnimationHandler>();
+        }
+
+        // Инициализирует инвентарь создавая объекты слотов
         protected internal void InitializeUI(int maxSlots, List<Slot> slots)
         {
             var inventory = GetComponent<CharacterStorage>().inventory;
             for (int i = 0; i < maxSlots; i++)
             {
-                var slotObject = Instantiate(slotPrefab, inventoryParent);
+                var slotObject = Instantiate(slotPrefab, inventoryParent.transform);
                 var slot = slotObject.GetComponent<Slot>();
+                // Добавляем слот в наш лист
                 inventory.Slots.Add(slot);
                 slot.GetType().GetProperty("Id")?.SetValue(slot, i);
+                // Добавляем созданный объект слота в лист
                 slotObjects.Add(slotObject);
             }
-
+            // Обновляем UI инвентаря
             UpdateUI(slots);
         }
 
+        // Обновление UI 
         protected internal void UpdateUI(List<Slot> slots)
         {
-            
+
             for (int i = 0; i < slots.Count; i++)
             {
                 var slot = slots[i];
@@ -47,6 +59,13 @@ namespace Inventory
                 image.sprite = (slot.StorageItem != null) ? slot.StorageItem.Image : null;
                 image.color = (slot.StorageItem != null) ? Color.white : Color.clear;
             }
+        }
+
+        // Открытие инвентаря
+        public void InventoryOpen()
+        {
+            animationHandler.TogglePanel(inventoryParent);
+            if (!inventoryParent.activeSelf) UIEvents.OnUpdateSlots();
         }
     }
 
